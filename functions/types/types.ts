@@ -9,6 +9,26 @@ export type User = {
 
 export type Level = 1 | 2 | 3 | 4 | 5;
 
-export type Language = "CZ" | "SK" | "PL";
+export type LanguageShortHand = "CZ" | "SK" | "PL";
 
-export type Interest = "Cooking" | "School"
+export type Interest = "Cooking" | "School";
+
+export type Language = {name: string, short: LanguageShortHand};
+
+export type Word = {
+    word: string,
+    description: string[],
+    synonyms: string[],
+    translation: string[],
+    example: string[],
+};
+
+export type CheckWord = {
+    score: number,
+    reason: string
+};
+
+export type ButtonData = {
+    id: number,
+    name: string
+}
