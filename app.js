@@ -49,19 +49,19 @@ app.post('/word/todayWord', (req, res) => {
         res.writeHead(404).send();
     }
     else {
-        res.json((0, getWord_1.getWord)(userInfo.interest[(0, randomIntFromInterval_1.randomIntFromInterval)(0, userInfo.interest.length - 1)], userInfo.level));
+        res.json([(0, getWord_1.getWord)(userInfo.interest[(0, randomIntFromInterval_1.randomIntFromInterval)(0, userInfo.interest.length - 1)], userInfo.level)]);
     }
 });
 app.post('/word/checkWord', (req, res) => {
-    const body = req.body;
     const sessionId = req.cookies['session_id'];
     // const userInfo = getUserInfoBySessionId(fakeUsers,sessionId);
     const userInfo = { id: 1, sessionId: 'dashfkl', name: "Patrik", interest: ['School', "Cooking"], language: { name: "Czech", short: "CZ" }, level: 4 };
-    if (!userInfo || !req.body['sentence']) {
-        res.writeHead(404).send();
+    if (!userInfo || !req.body.data["sentence"]) {
+        res.writeHead(404);
+        res.end("User info or req.body.sentence not provided");
     }
     else {
-        res.json((0, checkWord_1.checkWord)(req.body["sentence"]));
+        res.json([(0, checkWord_1.checkWord)(req.body.data["sentence"])]);
     }
 });
 app.get('/signup/countries', (req, res) => {

@@ -8,7 +8,7 @@ export const getWord = (interest: Interest, level: Level):Word => {
             "say or shout ‘hello’.",
         ],
         synonyms: ["welcome", "good afternoon"],
-        translation: ["Ahoj", "Nazdar"],
+        translation: ["Funguje", "To"],
         example: ["hello there, Katie!", "I pressed the phone button and helloed"],
     };
 }

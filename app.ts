@@ -52,19 +52,19 @@ app.post('/word/todayWord', (req, res) => {
     if(!userInfo) {
         res.writeHead(404).send();
     }else{
-        res.json(getWord(userInfo.interest[randomIntFromInterval(0, userInfo.interest.length - 1)], userInfo.level))
+        res.json([getWord(userInfo.interest[randomIntFromInterval(0, userInfo.interest.length - 1)], userInfo.level)])
     }
 });
 
 app.post('/word/checkWord', (req, res) => {
-    const body = req.body
     const sessionId = req.cookies['session_id'];
     // const userInfo = getUserInfoBySessionId(fakeUsers,sessionId);
     const userInfo:User|undefined = {id: 1, sessionId: 'dashfkl', name: "Patrik", interest: ['School', "Cooking"], language: {name: "Czech", short:"CZ"}, level: 4}
-    if(!userInfo || !req.body['sentence']) {
-        res.writeHead(404).send();
+    if(!userInfo || !req.body.data["sentence"]) {
+        res.writeHead(404);
+        res.end("User info or req.body.sentence not provided");
     }else{
-        res.json(checkWord(req.body["sentence"]))
+        res.json([checkWord(req.body.data["sentence"])])
     }
 });
 
