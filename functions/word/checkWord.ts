@@ -1,9 +1,34 @@
-import {CheckWord} from "../types/types";
+import { CheckWord } from "../types/types";
+import { openAI } from "../general/openAI";
 
-export const checkWord = (word:string):CheckWord => {
-    return {
-        score: 3,
-        reason:
-            word + " - A pretty long reason with a lot of characters involved and a dot at the end.",
-    };
-}
+export const checkWord = (word: string, sentence: string): Promise<CheckWord> => {
+    return openAI([
+        {
+            role: "system",
+            content:
+                "Respond ONLY JSON. Your response is going to be fed directly into a machine that, if it is not fed, a JSON will break in this format: {score: number, reason:string}  " +
+                "  provide a reason even if the score is perfect\n" +
+                "On a scale of 0 to 10, give me whether the word described bellow is used in the sentence correctly. Apply all grammatical rules and if the sentence makes sense.\n" +
+                "\n" +
+                "Rule 1) Count it as good when the word is usually not used in the way it is used or is connected with a word that is not normally used with.\n" +
+                "\n" +
+                "Rule 2) If the word is not in the sentence, give it a 0" +
+                "\n" +
+                "Make sure the sentence doesn’t violate any of the rules.\n" +
+                "\n" +
+                `The word: ${word}\n` +
+                "\n" +
+                `The sentence: ${sentence}`,
+        },
+    ])
+        .then((result) => {
+            console.log(result.message.content)
+            return {
+                // @ts-ignore
+                score: JSON.parse(result.message.content).score,
+                // @ts-ignore
+                reason: JSON.parse(result.message.content).reason,
+            };
+        })
+
+};

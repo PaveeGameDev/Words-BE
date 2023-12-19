@@ -10,12 +10,14 @@ import {checkWord} from "./functions/word/checkWord";
 import {getCountries} from "./functions/word/getCountries";
 import {getInterests} from "./functions/word/getInterests";
 import {getProficiencyLevels} from "./functions/word/getProficiencyLevels";
+import OpenAI from "openai";
+import {getOpenAISecret} from "./secret/getOpenAISecret";
 
 const cookieParser = require('cookie-parser');
 
 const app = express();
 const port = 5000;
-
+export const openai = new OpenAI({apiKey: getOpenAISecret()});
 // Apply app.use middleware
 app.use(cookieParser());
 app.use(cors());
@@ -56,7 +58,7 @@ app.post('/word/todayWord', (req, res) => {
     }
 });
 
-app.post('/word/checkWord', (req, res) => {
+app.post('/word/checkWord', async (req, res) => {
     const sessionId = req.cookies['session_id'];
     // const userInfo = getUserInfoBySessionId(fakeUsers,sessionId);
     const userInfo:User|undefined = {id: 1, sessionId: 'dashfkl', name: "Patrik", interest: ['School', "Cooking"], language: {name: "Czech", short:"CZ"}, level: 4}
@@ -64,7 +66,8 @@ app.post('/word/checkWord', (req, res) => {
         res.writeHead(404);
         res.end("User info or req.body.sentence not provided");
     }else{
-        res.json([checkWord(req.body.data["sentence"])])
+        const checkedWord = await checkWord(getWord(userInfo.interest[randomIntFromInterval(0, userInfo.interest.length - 1)], userInfo.level).word,req.body.data["sentence"])
+        res.json([checkedWord])
     }
 });
 

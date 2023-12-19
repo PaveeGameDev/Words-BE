@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getWord = void 0;
 const getWord = (interest, level) => {
     return {
-        word: interest,
+        word: "Cooking",
         description: [
             "used as a greeting or to begin a phone conversation.",
             "say or shout ‘hello’.",
