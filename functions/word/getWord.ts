@@ -1,14 +1,17 @@
-import {Interest, Level, Word} from "../types/types";
+import { User, Word } from "../types/types";
+import { getUsersTodayWord } from "./getUsersTodayWord";
+import { getTodayWord } from "./getTodayWord";
+import { randomIntFromInterval } from "../general/randomIntFromInterval";
 
-export const getWord = (interest: Interest, level: Level):Word => {
-    return {
-        word: "Cooking",
-        description: [
-            "used as a greeting or to begin a phone conversation.",
-            "say or shout ‘hello’.",
-        ],
-        synonyms: ["welcome", "good afternoon"],
-        translation: ["Funguje", "To"],
-        example: ["hello there, Katie!", "I pressed the phone button and helloed"],
-    };
-}
+export const getWord = async (user: User): Promise<Word> => {
+  //ask the database
+  //if word: return today's word
+  //else choose a random word out of today's words
+  const todayWord = await getUsersTodayWord(user);
+  if (todayWord?.word) return todayWord;
+  //add the word to learned words
+  return getTodayWord(
+    user.interest[randomIntFromInterval(0, user.interest.length)],
+    user.level,
+  );
+};

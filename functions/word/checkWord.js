@@ -8,7 +8,7 @@ const checkWord = (word, sentence) => {
             role: "system",
             content: "Respond ONLY JSON. Your response is going to be fed directly into a machine that, if it is not fed, a JSON will break in this format: {score: number, reason:string}  " +
                 "  provide a reason even if the score is perfect\n" +
-                "On a scale of 0 to 10, give me whether the word described bellow is used in the sentence correctly. Apply all grammatical rules and if the sentence makes sense.\n" +
+                "On a scale of 0 to 10, give me whether the word described bellow is used in the sentence correctly. This sentence needs to show that the person knows the meaning of the word and can use it appropriately Apply all grammatical rules and if the sentence makes sense.\n" +
                 "\n" +
                 "Rule 1) Count it as good when the word is usually not used in the way it is used or is connected with a word that is not normally used with.\n" +
                 "\n" +
