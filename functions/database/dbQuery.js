@@ -11,13 +11,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.dbQuery = void 0;
 const database_1 = require("./database");
-const dbQuery = (query, visibleValues) => __awaiter(void 0, void 0, void 0, function* () {
+const dbQuery = (query, visibleValues, dbName) => __awaiter(void 0, void 0, void 0, function* () {
     const db = yield (0, database_1.database)();
     if (!db)
         return;
     let result;
     yield db
-        .collection("users")
+        .collection(dbName)
         .find(query, { projection: visibleValues })
         .toArray()
         .then((value) => (result = value));

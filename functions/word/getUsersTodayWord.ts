@@ -7,10 +7,40 @@ import { ObjectId } from "mongodb";
 export const getUsersTodayWord = async (
   user: User,
 ): Promise<Word | undefined> => {
-  const result = await dbQuery({ _id: new ObjectId(user.id) }, { words: 1 });
+  const result = await dbQuery(
+    { _id: new ObjectId(user.id) },
+    { words: 1 },
+    "users",
+  );
   // @ts-ignore
-  if (!result || result[result.length - 1].date !== Date.now().toString())
+  if (!result) return;
+  const today = new Date();
+
+  if (
+    //@ts-ignore
+    result[0].words[result[0].words.length - 1].date.year !==
+    today.getFullYear()
+  )
     return;
+
+  if (
+    //@ts-ignore
+    result[0].words[result[0].words.length - 1].date.month !== today.getMonth()
+  )
+    return;
+  //@ts-ignore
+  if (result[0].words[result[0].words.length - 1].date.day !== today.getDate())
+    return;
+
+  const word = await dbQuery(
+    {
+      //@ts-ignore
+      _id: new ObjectId(result[0].words[result[0].words.length - 1].wordId),
+    },
+    {},
+    "words",
+  );
+
   // @ts-ignore
-  return result[result.length - 1].word;
+  return word[0];
 };

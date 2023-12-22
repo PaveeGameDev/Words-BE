@@ -27,6 +27,8 @@ const openai_1 = __importDefault(require("openai"));
 const getOpenAISecret_1 = require("./secret/getOpenAISecret");
 const dbQuery_1 = require("./functions/database/dbQuery");
 const mongodb_1 = require("mongodb");
+const fakeDatabase_1 = require("./data/fakeDatabase");
+const fakeUser_1 = require("./data/fakeUser");
 const cookieParser = require("cookie-parser");
 const app = (0, express_1.default)();
 const port = 5000;
@@ -58,14 +60,7 @@ app.post("/login", (req, res) => {
 app.post("/word/todayWord", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const sessionId = req.cookies["session_id"];
     // const userInfo = getUserInfoBySessionId(fakeUsers,sessionId);
-    const userInfo = {
-        id: "658347eb26b20913ceba2680",
-        sessionId: "",
-        name: "Patrik",
-        interest: ["School", "Cooking"],
-        language: { name: "Czech", short: "CZ" },
-        level: 4,
-    };
+    const userInfo = fakeUser_1.fakeUser;
     if (!userInfo) {
         res.writeHead(404).send();
     }
@@ -76,14 +71,7 @@ app.post("/word/todayWord", (req, res) => __awaiter(void 0, void 0, void 0, func
 app.post("/word/checkWord", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const sessionId = req.cookies["session_id"];
     // const userInfo = getUserInfoBySessionId(fakeUsers,sessionId);
-    const userInfo = {
-        id: "658347eb26b20913ceba2680",
-        sessionId: "dashfkl",
-        name: "Patrik",
-        interest: ["School", "Cooking"],
-        language: { name: "Czech", short: "CZ" },
-        level: 4,
-    };
+    const userInfo = fakeUser_1.fakeUser;
     if (!userInfo || !req.body.data["sentence"]) {
         res.writeHead(404);
         res.end("User info or req.body.sentence not provided");
@@ -97,8 +85,16 @@ app.post("/word/checkWord", (req, res) => __awaiter(void 0, void 0, void 0, func
 app.get("/signup/countries", (req, res) => {
     res.json((0, getCountries_1.getCountries)());
 });
+app.get("/testing", (req, res) => {
+    const time = Date.now();
+    for (var i = 0; i < 130000; i++)
+        console.log(i);
+    const time2 = Date.now();
+    res.json(time2 - time);
+});
 app.get("/database", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.json(yield (0, dbQuery_1.dbQuery)({ _id: new mongodb_1.ObjectId("658347eb26b20913ceba2680") }, {}));
+    yield (0, fakeDatabase_1.fakeDatabase)();
+    res.json(yield (0, dbQuery_1.dbQuery)({ _id: new mongodb_1.ObjectId("6585ab94f074de6bcf6dfd60") }, {}, "users"));
 }));
 app.get("/signup/interests", (req, res) => {
     res.json((0, getInterests_1.getInterests)());

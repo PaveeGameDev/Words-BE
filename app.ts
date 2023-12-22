@@ -13,6 +13,8 @@ import OpenAI from "openai";
 import { getOpenAISecret } from "./secret/getOpenAISecret";
 import { dbQuery } from "./functions/database/dbQuery";
 import { ObjectId } from "mongodb";
+import { fakeDatabase } from "./data/fakeDatabase";
+import { fakeUser } from "./data/fakeUser";
 
 const cookieParser = require("cookie-parser");
 
@@ -51,14 +53,7 @@ app.post("/login", (req, res) => {
 app.post("/word/todayWord", async (req, res) => {
   const sessionId = req.cookies["session_id"];
   // const userInfo = getUserInfoBySessionId(fakeUsers,sessionId);
-  const userInfo: User | undefined = {
-    id: "658347eb26b20913ceba2680",
-    sessionId: "",
-    name: "Patrik",
-    interest: ["School", "Cooking"],
-    language: { name: "Czech", short: "CZ" },
-    level: 4,
-  };
+  const userInfo: User | undefined = fakeUser;
   if (!userInfo) {
     res.writeHead(404).send();
   } else {
@@ -69,14 +64,7 @@ app.post("/word/todayWord", async (req, res) => {
 app.post("/word/checkWord", async (req, res) => {
   const sessionId = req.cookies["session_id"];
   // const userInfo = getUserInfoBySessionId(fakeUsers,sessionId);
-  const userInfo: User | undefined = {
-    id: "658347eb26b20913ceba2680",
-    sessionId: "dashfkl",
-    name: "Patrik",
-    interest: ["School", "Cooking"],
-    language: { name: "Czech", short: "CZ" },
-    level: 4,
-  };
+  const userInfo: User | undefined = fakeUser;
   if (!userInfo || !req.body.data["sentence"]) {
     res.writeHead(404);
     res.end("User info or req.body.sentence not provided");
@@ -91,9 +79,21 @@ app.get("/signup/countries", (req, res) => {
   res.json(getCountries());
 });
 
+app.get("/testing", (req, res) => {
+  const time = Date.now();
+  for (var i = 0; i < 130000; i++) console.log(i);
+  const time2 = Date.now();
+  res.json(time2 - time);
+});
+
 app.get("/database", async (req, res) => {
+  await fakeDatabase();
   res.json(
-    await dbQuery({ _id: new ObjectId("658347eb26b20913ceba2680") }, {}),
+    await dbQuery(
+      { _id: new ObjectId("6585ab94f074de6bcf6dfd60") },
+      {},
+      "users",
+    ),
   );
 });
 
