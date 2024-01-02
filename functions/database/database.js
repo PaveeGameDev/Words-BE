@@ -17,11 +17,6 @@ const database = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         client = yield mongodb_1.MongoClient.connect(url);
         return yield client.db("WordsTest");
-        // const myobj = { email: "email", name: "name", surname: "surname", sessionId: "sessionId", level: 1, language: "Czech", interest: ["Cooking"], words: [{date: 'Mon Aug 31 2020', word: "cooking"}] };
-        // const result = await db.collection("users").insertOne(myobj);
-        // console.log("1 document inserted");
-        // console.log(result)
-        // await client.close()
     }
     catch (err) {
         console.error(err);

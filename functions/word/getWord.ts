@@ -10,8 +10,5 @@ export const getWord = async (user: User): Promise<Word> => {
   const todayWord = await getUsersTodayWord(user);
   if (todayWord?.word) return todayWord;
   //add the word to learned words
-  return getTodayWord(
-    user.interest[randomIntFromInterval(0, user.interest.length)],
-    user.level,
-  );
+  return getTodayWord(user);
 };

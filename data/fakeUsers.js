@@ -8,7 +8,7 @@ exports.fakeUsers = [
         sessionId: "3",
         level: 3,
         language: { name: "Czech", short: "CZ" },
-        interest: ["Cooking", "School"],
+        interest: ["cooking", "school"],
     },
     {
         id: "2",
@@ -16,7 +16,7 @@ exports.fakeUsers = [
         sessionId: "5",
         level: 4,
         language: { name: "Slovak", short: "SK" },
-        interest: ["Cooking"],
+        interest: ["cooking"],
     },
     {
         id: "3",
@@ -24,7 +24,7 @@ exports.fakeUsers = [
         sessionId: "7",
         level: 2,
         language: { name: "Polish", short: "PL" },
-        interest: ["School"],
+        interest: ["school"],
     },
     {
         id: "4",
@@ -40,7 +40,7 @@ exports.fakeUsers = [
         sessionId: "",
         level: 5,
         language: { name: "Slovak", short: "SK" },
-        interest: ["Cooking", "School"],
+        interest: ["cooking", "school"],
     },
     {
         id: "6",
@@ -48,7 +48,7 @@ exports.fakeUsers = [
         sessionId: "",
         level: 3,
         language: { name: "Polish", short: "PL" },
-        interest: ["Cooking"],
+        interest: ["cooking"],
     },
     {
         id: "7",
@@ -56,7 +56,7 @@ exports.fakeUsers = [
         sessionId: "",
         level: 4,
         language: { name: "Czech", short: "CZ" },
-        interest: ["School"],
+        interest: ["school"],
     },
     {
         id: "8",
@@ -72,7 +72,7 @@ exports.fakeUsers = [
         sessionId: "",
         level: 1,
         language: { name: "Polish", short: "PL" },
-        interest: ["Cooking"],
+        interest: ["cooking"],
     },
     {
         id: "10",
@@ -80,6 +80,6 @@ exports.fakeUsers = [
         sessionId: "",
         level: 5,
         language: { name: "Czech", short: "CZ" },
-        interest: ["School"],
+        interest: ["school"],
     },
 ];

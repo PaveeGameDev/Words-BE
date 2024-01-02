@@ -11,7 +11,7 @@ export type Level = 1 | 2 | 3 | 4 | 5;
 
 export type LanguageShortHand = "CZ" | "SK" | "PL";
 
-export type Interest = "Cooking" | "School";
+export type Interest = "cooking" | "school";
 
 export type Language = { name: string; short: LanguageShortHand };
 

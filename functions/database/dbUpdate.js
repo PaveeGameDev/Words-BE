@@ -9,17 +9,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getWord = void 0;
-const getUsersTodayWord_1 = require("./getUsersTodayWord");
-const getTodayWord_1 = require("./getTodayWord");
-const getWord = (user) => __awaiter(void 0, void 0, void 0, function* () {
-    //ask the database
-    //if word: return today's word
-    //else choose a random word out of today's words
-    const todayWord = yield (0, getUsersTodayWord_1.getUsersTodayWord)(user);
-    if (todayWord === null || todayWord === void 0 ? void 0 : todayWord.word)
-        return todayWord;
-    //add the word to learned words
-    return (0, getTodayWord_1.getTodayWord)(user);
+exports.dbUpdate = void 0;
+const database_1 = require("./database");
+const dbUpdate = (query, newValues, dbName) => __awaiter(void 0, void 0, void 0, function* () {
+    const db = yield (0, database_1.database)();
+    if (!db)
+        return;
+    let result;
+    yield db
+        .collection(dbName)
+        .updateMany(query, { $set: newValues })
+        .then((value) => (result = value));
+    return result;
 });
-exports.getWord = getWord;
+exports.dbUpdate = dbUpdate;

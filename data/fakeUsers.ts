@@ -7,7 +7,7 @@ export const fakeUsers: User[] = [
     sessionId: "3",
     level: 3,
     language: { name: "Czech", short: "CZ" },
-    interest: ["Cooking", "School"],
+    interest: ["cooking", "school"],
   },
   {
     id: "2",
@@ -15,7 +15,7 @@ export const fakeUsers: User[] = [
     sessionId: "5",
     level: 4,
     language: { name: "Slovak", short: "SK" },
-    interest: ["Cooking"],
+    interest: ["cooking"],
   },
   {
     id: "3",
@@ -23,7 +23,7 @@ export const fakeUsers: User[] = [
     sessionId: "7",
     level: 2,
     language: { name: "Polish", short: "PL" },
-    interest: ["School"],
+    interest: ["school"],
   },
   {
     id: "4",
@@ -39,7 +39,7 @@ export const fakeUsers: User[] = [
     sessionId: "",
     level: 5,
     language: { name: "Slovak", short: "SK" },
-    interest: ["Cooking", "School"],
+    interest: ["cooking", "school"],
   },
   {
     id: "6",
@@ -47,7 +47,7 @@ export const fakeUsers: User[] = [
     sessionId: "",
     level: 3,
     language: { name: "Polish", short: "PL" },
-    interest: ["Cooking"],
+    interest: ["cooking"],
   },
   {
     id: "7",
@@ -55,7 +55,7 @@ export const fakeUsers: User[] = [
     sessionId: "",
     level: 4,
     language: { name: "Czech", short: "CZ" },
-    interest: ["School"],
+    interest: ["school"],
   },
   {
     id: "8",
@@ -71,7 +71,7 @@ export const fakeUsers: User[] = [
     sessionId: "",
     level: 1,
     language: { name: "Polish", short: "PL" },
-    interest: ["Cooking"],
+    interest: ["cooking"],
   },
   {
     id: "10",
@@ -79,6 +79,6 @@ export const fakeUsers: User[] = [
     sessionId: "",
     level: 5,
     language: { name: "Czech", short: "CZ" },
-    interest: ["School"],
+    interest: ["school"],
   },
 ];
