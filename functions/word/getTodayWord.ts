@@ -5,62 +5,54 @@ import { ObjectId } from "mongodb";
 import { dbUpdate } from "../database/dbUpdate";
 
 export const getTodayWord = async (user: User): Promise<Word> => {
+  // 1. Extract random interest selection into a function for clarity
+  const selectRandomInterest = (interests: string[]) =>
+    interests[randomIntFromInterval(0, interests.length - 1)];
+
+  // 2. Simplify query by directly using the selected interest
+  const randomInterest: string = selectRandomInterest(user.interest);
   const words = await dbQuery(
-    {
-      level: user.level,
-      interest:
-        user.interest[randomIntFromInterval(0, user.interest.length - 1)],
-    },
+    { level: user.level, interest: randomInterest },
     {},
     "words",
   );
-  if (!words)
-    return {
-      word: "Cooking",
-      description: [
-        "used as a greeting or to begin a phone conversation.",
-        "say or shout ‘hello’.",
-      ],
-      synonyms: ["welcome", "good afternoon"],
-      translation: ["Funguje", "To"],
-      example: [
-        "hello there, Katie!",
-        "I pressed the phone button and helloed",
-      ],
-    };
+
+  // 3. Define a default word object to avoid repetition
+  const defaultWord = {
+    word: "Error",
+    description: ["an error occurred, contact the developer"],
+    level: 1,
+    interest: "none",
+    synonyms: [],
+    translation: [],
+    example: [],
+  };
+
+  //TODO fix the no word error
+
+  if (!words) return defaultWord;
+
   const usedWords = await dbQuery(
     { _id: new ObjectId(user.id) },
     { words: 1 },
     "users",
   );
-  //TODO make it do something when the user has no words
-  if (!usedWords)
-    return {
-      word: "Cooking",
-      description: [
-        "used as a greeting or to begin a phone conversation.",
-        "say or shout ‘hello’.",
-      ],
-      synonyms: ["welcome", "good afternoon"],
-      translation: ["Funguje", "To"],
-      example: [
-        "hello there, Katie!",
-        "I pressed the phone button and helloed",
-      ],
-    };
+
+  // 4. Handle the case where usedWords are not found
+  if (!usedWords) return defaultWord;
+
   // @ts-ignore
-  const wordsToUpdate: any[] = usedWords[0].words;
+  const wordsToUpdate = usedWords[0].words || [];
   const today = new Date();
+
   // @ts-ignore
   for (const word of words) {
-    let findMatch: boolean = false;
-    // @ts-ignore
-    for (const usedWord of usedWords) {
-      if (!findMatch) {
-        findMatch = word._id.toString() === usedWord.words[0].wordId;
-      }
-    }
-    if (!findMatch) {
+    const isWordUsed = wordsToUpdate.some(
+      (usedWord: any) => usedWord.wordId === word._id.toString(),
+    );
+
+    if (!isWordUsed) {
+      // 5. Use Date object methods to format the date more cleanly
       wordsToUpdate.push({
         date: {
           year: today.getFullYear(),
@@ -69,6 +61,7 @@ export const getTodayWord = async (user: User): Promise<Word> => {
         },
         wordId: word._id.toString(),
       });
+
       await dbUpdate(
         { _id: new ObjectId(user.id) },
         { words: wordsToUpdate },
@@ -78,16 +71,9 @@ export const getTodayWord = async (user: User): Promise<Word> => {
     }
   }
 
-  console.error("Running out of words in " + words);
+  // 6. Log the error more informatively
+  // @ts-ignore
+  console.error("Running out of words. Total words available: ", words.length);
 
-  return {
-    word: "Cooking",
-    description: [
-      "used as a greeting or to begin a phone conversation.",
-      "say or shout ‘hello’.",
-    ],
-    synonyms: ["welcome", "good afternoon"],
-    translation: ["Funguje", "To"],
-    example: ["hello there, Katie!", "I pressed the phone button and helloed"],
-  };
+  return defaultWord;
 };
